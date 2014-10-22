@@ -1,0 +1,53 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{ucs}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+
+\newenvironment{short_list}{
+  \begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{
+  \end{itemize}
+}
+
+\title{ZPR\\
+Dokumentacja wstępna }
+
+\author{
+Paweł Szewczyk
+\and
+Konrad Ziaja
+}
+
+
+\geometry{a4paper}
+
+\begin{document}
+\maketitle
+
+\section{Wstęp}
+Celem projektu jest implementacja serwera wieloosobowej gry w pokera oraz prostego klienta gry.
+
+\section{Założenia projektowe}
+Podstawową funkcjonalnością projektu jest pełna obsługa wieloosobowej gry w pokera graczy pracujących na różnych platformach. Gra będzie udostępniała różne warianty 
+pokera z opcją prostego dodania nowych wariantów.
+
+\subsection{Dodatkowe funkcje dostępne dla użytkowników}
+Możliwość przeprowadzenia partii między wieloma graczami rozszerzona zostanie o dodatkowe funkcje. Użytkownicy zyskają możliwość rejestracji konta w grze i śledzenia postępów swoich i swoich znajomych w rankingu.
+
+\subsection{Możliwość rozszerzenia funkcjonalności}
+Mechanika gry zostanie zdefiniowana poprzez skrypty po stronie serwera (Python), udostępniając interfejs umożliwiający rozszerzanie jej o nowe funkcje w sposób nie ingerujący w silnik gry. Tworzenie i ładowanie nowych modułów powinno być stosunkowo proste dla użytkowników.
+
+\section{Wstępne szczegóły implementacyjne}
+\subsection{Wybór narzędzi}
+Projekt zostanie zrealizowany przy użyciu języka C++ z biblioteką Boost oraz skryptów w Pythonie. Serwer będzie również korzystał z bazy danych PostgreSQL.
+
+\subsection{Architektura systemu}
+Ogólną budowę projektowanego systemu ilustruje rysunek.\\
+\includegraphics[scale=1]{architecture-overview.jpg}
+\end{document}
