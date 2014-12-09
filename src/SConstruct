@@ -8,7 +8,7 @@ BOOST_BIN="E:/Codes/lib/boost_1_57_0/stage/lib"
 
 if(platform.system() == "Linux"):
    e.Append( CPPFLAGS = '-Wall -pedantic -pthread -Wno-long-long' )
-   e.Append( LINKFLAGS = '-Wall -pthread' )
+   e.Append( LINKFLAGS = '-Wall -pthread -lboost_system' )
 
    target = 'hello.so'
 
@@ -20,4 +20,4 @@ elif(platform.system() == "Windows"):
 else:
    print platform.system() + " not supported"
 
-e.Program(target='server', source=['server/server.cpp', 'server/session.cpp', 'server/main.cpp'])
+e.Program(target='pokerd', source=['server/server.cpp', 'server/session.cpp', 'server/main.cpp'])
