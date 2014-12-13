@@ -1,11 +1,12 @@
-#include "session.hpp"
+#include "server/session.hpp"
 
 #include <iostream>
 #include <string>
 #include <boost/lexical_cast.hpp>
 
-Session::Session(boost::asio::io_service& io_service)
+Session::Session(boost::asio::io_service& io_service, RequestHandler *handler)
 	: socket_(io_service)
+	: handler_(handler)
 {
 }
 
@@ -17,44 +18,28 @@ void Session::start()
 		boost::asio::placeholders::bytes_transferred));
 }
 
-tcp::socket& Session::socket()
+void Session::send(Request *req)
 {
-	return socket_;
+	// TODO
 }
 
 void Session::handle_read(const boost::system::error_code& error,
 	size_t bytes_transferred)
 {
-	if (!error)
-	{
-		std::string response = "Bytes received: ";
-		response.append(boost::lexical_cast<std::string>(bytes_transferred));
-		response.append("\n");
-
-		std::cout << response;
-
-		boost::asio::async_write(socket_,
-			boost::asio::buffer(response),
-			boost::bind(&Session::handle_write, this,
-			boost::asio::placeholders::error));
-	}
-	else
-	{
-		delete this;
-	}
+	if (error)
+		return;
+	
+	// TODO Creating request objectfrom raw data
+	Request* req = NULL;
+	handler_->handle(req);
 }
 
 void Session::handle_write(const boost::system::error_code& error)
 {
-	if (!error)
-	{
-		socket_.async_read_some(boost::asio::buffer(data_, buffer_length),
-			boost::bind(&Session::handle_read, this,
-			boost::asio::placeholders::error,
-			boost::asio::placeholders::bytes_transferred));
-	}
-	else
-	{
-		delete this;
-	}
+	// TODO
+	if (error)
+		return;
+
+	// We read some data, let's read more
+	start();
 }
