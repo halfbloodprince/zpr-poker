@@ -4,7 +4,7 @@
 #include <string>
 #include <boost/lexical_cast.hpp>
 
-Session::Session(boost::asio::io_service& io_service, RequestHandler *handler)
+Session::Session(boost::asio::io_service& io_service, requests::RequestHandler *handler)
 	: socket_(io_service)
 	: handler_(handler)
 {
@@ -18,7 +18,7 @@ void Session::start()
 		boost::asio::placeholders::bytes_transferred));
 }
 
-void Session::send(Request *req)
+void Session::send(requests::Request *req)
 {
 	// TODO
 }
@@ -30,8 +30,11 @@ void Session::handle_read(const boost::system::error_code& error,
 		return;
 	
 	// TODO Creating request objectfrom raw data
-	Request* req = NULL;
+	requests::Request* req = NULL;
 	handler_->handle(req);
+
+	// We read some data, let's read more
+	start();
 }
 
 void Session::handle_write(const boost::system::error_code& error)
@@ -39,7 +42,4 @@ void Session::handle_write(const boost::system::error_code& error)
 	// TODO
 	if (error)
 		return;
-
-	// We read some data, let's read more
-	start();
 }

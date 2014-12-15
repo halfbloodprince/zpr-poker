@@ -5,7 +5,7 @@
 #include <boost/asio.hpp>
 #include <string>
 
-#include "server/request_handler.hpp"
+#include "common/requests/request_handler.hpp"
 
 using boost::asio::ip::tcp;
 
@@ -14,17 +14,17 @@ class Session
 {
 public:
 	/// @brief Create new session
-	Session(boost::asio::io_service& io_service, RequestHandler *handler);
+	Session(boost::asio::io_service& io_service, requests::RequestHandler *handler);
 
 	/// @brief Start receiving client's requests
 	void start();
 	
 	/// @brief Send given data to client
-	void send(const Request &req);
+	void send(const requests::Request &req);
 
 	/// @brief Set reuqest handler 
 	/// @param[in] 
-	void setHandler(RequestHandler *handler);
+	void setHandler(requests::RequestHandler *handler);
 
 protected:
 	/// @brief Proceed with received data
@@ -39,7 +39,7 @@ protected:
 	static const short buffer_length = 1024;
 	tcp::socket socket_;
 	char data_[buffer_length];
-	RequestHandler *handler_;
+	requests::RequestHandler *handler_;
 };
 
 #endif

@@ -5,6 +5,7 @@ e = Environment()
 BOOST_PATH="E:/Codes/lib/boost_1_57_0"
 BOOST_BIN="E:/Codes/lib/boost_1_57_0/stage/lib"
 
+e.Append( CPPPATH = '.' )
 
 if(platform.system() == "Linux"):
    e.Append( CPPFLAGS = '-Wall -pedantic -pthread -Wno-long-long' )

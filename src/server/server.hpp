@@ -4,6 +4,7 @@
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include "session.hpp"
+#include "lobby/lobby.hpp"
 
 using boost::asio::ip::tcp;
 
@@ -20,6 +21,8 @@ private:
 
 	boost::asio::io_service& io_service_;
 	tcp::acceptor acceptor_;
+
+	lobby::Lobby *lobby_;
 };
 
 #endif
