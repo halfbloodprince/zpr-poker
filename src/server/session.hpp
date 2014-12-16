@@ -3,7 +3,6 @@
 
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
-#include <string>
 
 #include "common/requests/request_handler.hpp"
 
@@ -39,10 +38,10 @@ protected:
 	/// @brief Proceed after data was sent to client
 	virtual void handle_write(const boost::system::error_code& error);
 
-	static const short buffer_length = 1024;
 	tcp::socket socket_;
-	char data_[buffer_length];
 	requests::RequestHandler *handler_;
+	static const short buffer_length = 1024;
+	char data_[buffer_length];
 };
 
 #endif

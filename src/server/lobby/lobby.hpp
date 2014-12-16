@@ -2,6 +2,7 @@
 #define POKER_LOBBY_H
 
 #include "common/requests/request_handler.hpp"
+#include "common/requests/msg.hpp"
 #include "server/session.hpp"
 
 #include <vector>
@@ -12,7 +13,12 @@ namespace lobby {
 	class Lobby : public requests::RequestHandler
 	{
 	public:
-		void handle(requests::Request &req);
+		/// @brief Default behavior for requests (not supported)
+		virtual void handle(requests::Request &req);
+
+		///@brief Handle msg request
+		virtual void handle(requests::Msg &req);
+
 		void addSession(Session *ses);
 
 	private:

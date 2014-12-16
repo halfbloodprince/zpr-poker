@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include <boost/lexical_cast.hpp>
 
 #include "common/requests/request_factory.hpp"
 
@@ -14,6 +13,7 @@ Session::Session(boost::asio::io_service& io_service, requests::RequestHandler *
 
 void Session::start()
 {
+	data_[0] = '\0';
 	socket_.async_read_some(boost::asio::buffer(data_, buffer_length),
 		boost::bind(&Session::handle_read, this,
 		boost::asio::placeholders::error,
@@ -22,9 +22,10 @@ void Session::start()
 
 void Session::send(requests::Request &req)
 {
-	const requests::RawData *buf = requests::RequestFactory::instance()->convert(req);
+	std::string buf = requests::RequestFactory::instance()->convert(req);
+
 	boost::asio::async_write(socket_,
-		boost::asio::buffer(buf, buf->size()),
+		boost::asio::buffer(buf),
 		boost::bind(&Session::handle_write, this,
 		boost::asio::placeholders::error));
 }
@@ -38,10 +39,10 @@ void Session::handle_read(const boost::system::error_code& error,
 {
 	if (error)
 		return;
-	
-	// TODO Creating request object from raw data
-	requests::Request* req = NULL;
-	handler_->handle(*req);
+
+	requests::Request* req = 
+		requests::RequestFactory::instance()->convert(data_, bytes_transferred);
+	req->acceptHandler(*handler_);
 
 	// We read some data, let's read more
 	start();

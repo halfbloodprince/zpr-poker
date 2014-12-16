@@ -2,11 +2,11 @@
 #define POKER_REQUEST_FACTORY_H
 
 #include "common/requests/request.hpp"
-#include <vector>
+#include <string>
 
 namespace requests {
 
-	typedef std::vector<char> RawData;
+	typedef std::string RawData;
 
 	/// @brief Factory used for object serialization
 	class RequestFactory
@@ -16,10 +16,10 @@ namespace requests {
 		static RequestFactory *instance();
 
 		/// @brief Convert given raw data to request object
-		Request *convert(RawData &data);
+		Request *convert(const char *buf, int len);
 
 		/// @brief Convert given request to raw data to be send
-		RawData *convert(Request &req);
+		std::string &convert(Request &req);
 
 	private:
 		RequestFactory();

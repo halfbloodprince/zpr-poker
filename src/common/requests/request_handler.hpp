@@ -2,6 +2,7 @@
 #define POKER_REQUEST_HANDLER_H
 
 #include "common/requests/request.hpp"
+#include "common/requests/msg.hpp"
 
 namespace requests {
 
@@ -9,9 +10,8 @@ namespace requests {
 	class RequestHandler
 	{
 	public:
-		/// @brief Handle given request
-		/// @param[in] req Request object to be handled
 		virtual void handle(Request &req) = 0;
+		virtual void handle(requests::Msg &req) = 0;
 	};
 
 }

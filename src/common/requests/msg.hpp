@@ -4,19 +4,23 @@
 #include "common/requests/request.hpp"
 #include "common/requests/request_factory.hpp"
 
+#include <string>
+
 namespace requests {
 
 	/// @brief Simplest request class for sending data
 	class Msg : public Request
 	{
 	public:
-		Msg(RawData *data);
+		Msg(const char *buf, int len);
 		~Msg();
 
-		RawData *data();
+		std::string& data();
+
+		virtual void acceptHandler(RequestHandler &handler);
 
 	private:
-		RawData *data_;
+		std::string data_;
 	};
 
 }

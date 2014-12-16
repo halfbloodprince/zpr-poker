@@ -1,14 +1,19 @@
 #include "server/lobby/lobby.hpp"
-#include "common/requests/msg.hpp"
+
+#include <iostream>
 
 using namespace lobby;
 
 void Lobby::handle(requests::Request &req)
 {
+	std::cout << "Request is not supported\n";
 	/// TODO
+}
 
-	// temporary workaround - broadcast request to everyone
-	for (std::vector<Session *>::iterator it = sessions_.begin(); it != sessions_.end(); ++it) {
+void Lobby::handle(requests::Msg &req)
+{
+	for (std::vector<Session *>::iterator it = sessions_.begin();
+		it != sessions_.end(); ++it) {
 		(*it)->send(req);
 	}
 }
