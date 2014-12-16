@@ -21,4 +21,10 @@ elif(platform.system() == "Windows"):
 else:
    print platform.system() + " not supported"
 
-e.Program(target='pokerd', source=['server/server.cpp', 'server/session.cpp', 'server/main.cpp'])
+e.Program(target='pokerd', source=['server/server.cpp',
+			'server/session.cpp',
+			'server/main.cpp',
+			'server/lobby/lobby.cpp',
+			'common/requests/request_factory.cpp',
+			'common/requests/msg.cpp',
+			'common/requests/request.cpp'])

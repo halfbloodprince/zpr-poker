@@ -8,7 +8,8 @@ namespace requests {
 	/// a request handler. Response sent to client is also a request.
 	class Request
 	{
-		virtual ~Request() = 0;
+	public:
+		virtual ~Request();
 	};
 
 }

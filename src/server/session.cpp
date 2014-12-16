@@ -4,9 +4,11 @@
 #include <string>
 #include <boost/lexical_cast.hpp>
 
+#include "common/requests/request_factory.hpp"
+
 Session::Session(boost::asio::io_service& io_service, requests::RequestHandler *handler)
 	: socket_(io_service)
-	: handler_(handler)
+	, handler_(handler)
 {
 }
 
@@ -18,9 +20,17 @@ void Session::start()
 		boost::asio::placeholders::bytes_transferred));
 }
 
-void Session::send(requests::Request *req)
+void Session::send(requests::Request &req)
 {
-	// TODO
+	const requests::RawData *buf = requests::RequestFactory::instance()->convert(req);
+	boost::asio::async_write(socket_,
+		boost::asio::buffer(buf, buf->size()),
+		boost::bind(&Session::handle_write, this,
+		boost::asio::placeholders::error));
+}
+
+tcp::socket &Session::socket() {
+	return socket_;
 }
 
 void Session::handle_read(const boost::system::error_code& error,
@@ -29,9 +39,9 @@ void Session::handle_read(const boost::system::error_code& error,
 	if (error)
 		return;
 	
-	// TODO Creating request objectfrom raw data
+	// TODO Creating request object from raw data
 	requests::Request* req = NULL;
-	handler_->handle(req);
+	handler_->handle(*req);
 
 	// We read some data, let's read more
 	start();

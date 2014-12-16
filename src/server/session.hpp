@@ -20,11 +20,14 @@ public:
 	void start();
 	
 	/// @brief Send given data to client
-	void send(const requests::Request &req);
+	void send(requests::Request &req);
 
 	/// @brief Set reuqest handler 
 	/// @param[in] 
 	void setHandler(requests::RequestHandler *handler);
+
+	/// @brief Get access to session's socket
+	tcp::socket &socket();
 
 protected:
 	/// @brief Proceed with received data

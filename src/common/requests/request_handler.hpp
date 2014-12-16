@@ -11,7 +11,7 @@ namespace requests {
 	public:
 		/// @brief Handle given request
 		/// @param[in] req Request object to be handled
-		virtual void handle(Request *req) = 0;
+		virtual void handle(Request &req) = 0;
 	};
 
 }

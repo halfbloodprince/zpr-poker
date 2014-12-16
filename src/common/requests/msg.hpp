@@ -1,14 +1,22 @@
-#ifndef POKER_REQUEST_H
-#define POKER_REQUEST_H
+#ifndef POKER_MSG_REQUEST_H
+#define POKER_MSG_REQUEST_H
+
+#include "common/requests/request.hpp"
+#include "common/requests/request_factory.hpp"
 
 namespace requests {
 
-	/// @brief Base class for all requests coming from client
-	/// @details Request is created from data received by client and passed to
-	/// a request handler. Response sent to client is also a request.
-	class Msg
+	/// @brief Simplest request class for sending data
+	class Msg : public Request
 	{
+	public:
+		Msg(RawData *data);
 		~Msg();
+
+		RawData *data();
+
+	private:
+		RawData *data_;
 	};
 
 }
