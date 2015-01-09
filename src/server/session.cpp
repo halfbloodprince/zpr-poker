@@ -13,19 +13,16 @@ Session::Session(boost::asio::io_service& io_service, requests::RequestHandler *
 
 void Session::start()
 {
-	data_[0] = '\0';
 	socket_.async_read_some(boost::asio::buffer(data_, buffer_length),
 		boost::bind(&Session::handle_read, this,
 		boost::asio::placeholders::error,
 		boost::asio::placeholders::bytes_transferred));
 }
 
-void Session::send(requests::Request &req)
+void Session::send(std::string &req)
 {
-	std::string buf = requests::RequestFactory::instance()->convert(req);
-
 	boost::asio::async_write(socket_,
-		boost::asio::buffer(buf),
+		boost::asio::buffer(req),
 		boost::bind(&Session::handle_write, this,
 		boost::asio::placeholders::error));
 }
@@ -42,7 +39,13 @@ void Session::handle_read(const boost::system::error_code& error,
 
 	requests::Request* req = 
 		requests::RequestFactory::instance()->convert(data_, bytes_transferred);
-	req->acceptHandler(*handler_);
+
+	if (req == NULL) {
+		std::cout << "Request not supported: " << data_ << std::endl;
+	}
+	else {
+		req->acceptHandler(*handler_);
+	}
 
 	// We read some data, let's read more
 	start();

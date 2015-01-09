@@ -8,8 +8,8 @@ BOOST_BIN="E:/Codes/lib/boost_1_57_0/stage/lib"
 e.Append( CPPPATH = '.' )
 
 if(platform.system() == "Linux"):
-   e.Append( CPPFLAGS = '-Wall -pedantic -pthread -Wno-long-long' )
-   e.Append( LINKFLAGS = '-Wall -pthread -lboost_system' )
+   e.Append( CPPFLAGS = '-Wall -g -pedantic -pthread -Wno-long-long -I/usr/include/jsoncpp' )
+   e.Append( LINKFLAGS = '-Wall -pthread -lboost_system -ljsoncpp' )
 
    target = 'hello.so'
 
@@ -27,4 +27,5 @@ e.Program(target='pokerd', source=['server/server.cpp',
 			'server/lobby/lobby.cpp',
 			'common/requests/request_factory.cpp',
 			'common/requests/msg.cpp',
-			'common/requests/request.cpp'])
+			'common/requests/request.cpp',
+			'common/requests/create_table.cpp'])

@@ -4,6 +4,7 @@
 #include "common/requests/request_handler.hpp"
 #include "common/requests/msg.hpp"
 #include "server/session.hpp"
+#include "server/table/table.hpp"
 
 #include <vector>
 
@@ -19,10 +20,13 @@ namespace lobby {
 		///@brief Handle msg request
 		virtual void handle(requests::Msg &req);
 
-		void addSession(Session *ses);
+		void addSession(Session *ses); 
+
+		void createTable();
 
 	private:
 		std::vector<Session *> sessions_;
+		std::vector<table::Table *> tables_;
 	};
 
 }

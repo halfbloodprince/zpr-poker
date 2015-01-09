@@ -19,7 +19,7 @@ public:
 	void start();
 	
 	/// @brief Send given data to client
-	void send(requests::Request &req);
+	void send(std::string &req);
 
 	/// @brief Set reuqest handler 
 	/// @param[in] 

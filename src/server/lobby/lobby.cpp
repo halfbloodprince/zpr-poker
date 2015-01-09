@@ -1,4 +1,5 @@
 #include "server/lobby/lobby.hpp"
+#include "common/requests/request_factory.hpp"
 
 #include <iostream>
 
@@ -14,9 +15,12 @@ void Lobby::handle(requests::Msg &req)
 {
 	for (std::vector<Session *>::iterator it = sessions_.begin();
 		it != sessions_.end(); ++it) {
-		(*it)->send(req);
+		std::string str = requests::RequestFactory::instance()->convert(req);
+		(*it)->send(str);
 	}
 }
+
+
 
 void Lobby::addSession(Session *ses)
 {

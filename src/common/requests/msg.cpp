@@ -4,8 +4,8 @@
 
 using namespace requests;
 
-Msg::Msg(const char *buf, int len) 
-	: data_(std::string(buf, len))
+Msg::Msg(const std::string &data) 
+	: data_(data)
 {
 }
 

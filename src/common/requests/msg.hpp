@@ -2,7 +2,6 @@
 #define POKER_MSG_REQUEST_H
 
 #include "common/requests/request.hpp"
-#include "common/requests/request_factory.hpp"
 
 #include <string>
 
@@ -12,7 +11,7 @@ namespace requests {
 	class Msg : public Request
 	{
 	public:
-		Msg(const char *buf, int len);
+		Msg(const std::string &data);
 		~Msg();
 
 		std::string& data();

@@ -1,5 +1,5 @@
 #include "common/requests/request_factory.hpp"
-#include "common/requests/msg.hpp"
+#include "json/json.h"
 
 #include <string>
 
@@ -19,17 +19,33 @@ RequestFactory *RequestFactory::instance() {
 
 /// @brief Convert given raw data to request object
 Request *RequestFactory::convert(const char *buf, int len) {
-	/// TODO
+	Json::Value root;
+	Json::Reader reader;
+	bool correct = reader.parse(buf, root, false);
+	// TODO error handling
+
+	if (root["type"] == "create_table")
+		return new CreateTable();
+	if (root["type"] == "msg")
+		return new Msg(root["msg"].asString());
 	
-	// workaround for msg support
-	return new Msg(buf, len);
+	// request was not recognized
+	return NULL;
 }
 
-/// @brief Convert given request to raw data to be send
-std::string& RequestFactory::convert(Request &req) {
-	/// TODO (could use visitor for this)
+std::string RequestFactory::convert(Msg &req)
+{
+	Json::Value root;
+	root["type"] = "msg";
+	root["msg"] = req.data();
+	Json::FastWriter writer;
+	return writer.write(root);
+}
 
-	// workaround for msg support
-	Msg *m = dynamic_cast<Msg *>(&req);
-	return m->data();
+std::string RequestFactory::convert(CreateTable &req)
+{
+	Json::Value root;
+	root["type"] = "create_table";
+	Json::FastWriter writer;
+	return writer.write(root);
 }

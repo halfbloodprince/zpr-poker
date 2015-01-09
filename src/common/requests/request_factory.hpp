@@ -2,6 +2,8 @@
 #define POKER_REQUEST_FACTORY_H
 
 #include "common/requests/request.hpp"
+#include "common/requests/msg.hpp"
+#include "common/requests/create_table.hpp"
 #include <string>
 
 namespace requests {
@@ -19,7 +21,8 @@ namespace requests {
 		Request *convert(const char *buf, int len);
 
 		/// @brief Convert given request to raw data to be send
-		std::string &convert(Request &req);
+		std::string convert(Msg &req);
+		std::string convert(CreateTable &req);
 
 	private:
 		RequestFactory();
