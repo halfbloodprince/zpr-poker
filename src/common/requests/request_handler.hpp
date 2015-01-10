@@ -11,7 +11,6 @@ namespace requests {
 	{
 	public:
 		virtual void handle(Request &req) = 0;
-		virtual void handle(requests::Msg &req) = 0;
 	};
 
 }

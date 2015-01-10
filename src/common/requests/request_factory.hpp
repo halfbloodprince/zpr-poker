@@ -4,6 +4,7 @@
 #include "common/requests/request.hpp"
 #include "common/requests/msg.hpp"
 #include "common/requests/create_table.hpp"
+#include "common/requests/joined.hpp"
 #include <string>
 
 namespace requests {
@@ -23,6 +24,7 @@ namespace requests {
 		/// @brief Convert given request to raw data to be send
 		std::string convert(Msg &req);
 		std::string convert(CreateTable &req);
+		std::string convert(Joined &req);
 
 	private:
 		RequestFactory();
