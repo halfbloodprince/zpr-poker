@@ -46,6 +46,8 @@ Request *RequestFactory::convert(const char *buf, int len) {
 	}
 	else if (root["type"] == "welcome")
 		ret = new Welcome();
+	else if (root["type"] == "fetch")
+		ret = new Fetch(root["what"].asString());
 	// TODO error handling
 
 	if (ret) {
@@ -128,6 +130,16 @@ std::string RequestFactory::convert(Welcome &req)
 	Json::Value root;
 	root["type"] = "welcome";
 	root["player_id"] = req.id();
+	Json::FastWriter writer;
+	return writer.write(root);
+}
+
+std::string RequestFactory::convert(Fetch &req)
+{
+	Json::Value root;
+	root["type"] = "fetch_tables";
+	root["player_id"] = req.id();
+	root["what"] = req.what();
 	Json::FastWriter writer;
 	return writer.write(root);
 }
