@@ -28,6 +28,7 @@ e.Program(target='pokerd', source=['server/server.cpp',
 			'server/table/table.cpp',
 			'common/requests/request_factory.cpp',
 			'common/requests/msg.cpp',
+			'common/requests/act.cpp',
 			'common/requests/request.cpp',
 			'common/requests/create_table.cpp',
 			'common/requests/joined.cpp'])

@@ -5,6 +5,7 @@
 #include "common/requests/msg.hpp"
 #include "common/requests/create_table.hpp"
 #include "common/requests/joined.hpp"
+#include "common/requests/act.hpp"
 #include <string>
 
 namespace requests {
@@ -25,6 +26,7 @@ namespace requests {
 		std::string convert(Msg &req);
 		std::string convert(CreateTable &req);
 		std::string convert(Joined &req);
+		std::string convert(Act &req);
 
 	private:
 		RequestFactory();

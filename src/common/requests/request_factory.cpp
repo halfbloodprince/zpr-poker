@@ -30,6 +30,8 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		return new Msg(root["msg"].asString());
 	if (root["type"] == "joined")
 		return new Joined(root["id"].asInt());
+	if (root["type"] == "act")
+		return new Act(root["name"].asString());
 	
 	// request was not recognized
 	return NULL;
@@ -57,6 +59,15 @@ std::string RequestFactory::convert(Joined &req)
 	Json::Value root;
 	root["type"] = "joined";
 	root["id"] = req.id();
+	Json::FastWriter writer;
+	return writer.write(root);
+}
+
+std::string RequestFactory::convert(Act &req)
+{
+	Json::Value root;
+	root["type"] = "act";
+	root["name"] = req.name();
 	Json::FastWriter writer;
 	return writer.write(root);
 }
