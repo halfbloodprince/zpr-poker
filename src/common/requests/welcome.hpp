@@ -9,7 +9,7 @@ namespace requests {
 
 	/// @brief Request sent after successfull connection
 	/// @detail Tell client about his id
-	class Act : public Request
+	class Welcome : public Request
 	{
 	public:
 		Welcome();
