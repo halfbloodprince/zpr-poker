@@ -11,6 +11,10 @@ TableList::~TableList()
 {
 }
 
+void TableList::addTable(int k, std::string label) {
+	tables_.push_back(std::make_pair(k, label));
+}
+
 void TableList::acceptHandler(RequestHandler &handler)
 {
 	handler.handle(*this);

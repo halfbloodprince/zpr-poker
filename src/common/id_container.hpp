@@ -27,6 +27,10 @@ public:
 		while (data_.find(ret) != data_.end()) ++ret;
 		return ret;
 	}
+	
+	bool exist(int k) {
+		return data_.find(k) != data_.end();
+	}
 };
 
 #endif

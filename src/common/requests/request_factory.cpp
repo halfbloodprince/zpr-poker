@@ -2,6 +2,7 @@
 #include "json/json.h"
 
 #include <string>
+#include <iostream>
 
 using namespace requests;
 
@@ -19,10 +20,13 @@ RequestFactory *RequestFactory::instance() {
 
 /// @brief Convert given raw data to request object
 Request *RequestFactory::convert(const char *buf, int len) {
+	std::cout << buf << " " << len << std::endl;
 	Json::Value root;
 	Json::Reader reader;
 	bool correct = reader.parse(buf, root, false);
-
+	if (!correct)
+		return new Error("syntax error");
+	
 	Request* ret = NULL;
 
 	if (root["type"] == "create_table")
@@ -48,7 +52,8 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		ret = new Welcome();
 	else if (root["type"] == "fetch")
 		ret = new Fetch(root["what"].asString());
-	// TODO error handling
+	else
+		ret = new Error("not recognized");
 
 	if (ret) {
 		ret->id_ = root["player_id"].asInt();

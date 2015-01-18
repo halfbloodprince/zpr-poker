@@ -31,6 +31,9 @@ public:
 	/// @brief Gets id
 	int id();
 
+	/// @brief Receive more data
+	void read();
+
 	/// @brief Get access to session's socket
 	tcp::socket &socket();
 

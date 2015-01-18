@@ -4,6 +4,7 @@
 #include "common/requests/request_handler.hpp"
 #include "common/requests/msg.hpp"
 #include "common/requests/create_table.hpp"
+#include "common/requests/fetch.hpp"
 #include "server/session.hpp"
 #include "server/table/table.hpp"
 #include "common/id_container.hpp"
@@ -22,6 +23,9 @@ namespace lobby {
 
 		///@brief Handle msg request
 		virtual void handle(requests::Msg &req);
+		
+		///@brief Handle request for data
+		virtual void handle(requests::Fetch &req);
 
 		/// @brief Handle creating table request
 		/// @details create new table and send its details

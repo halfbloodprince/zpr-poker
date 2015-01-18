@@ -17,6 +17,12 @@ void Session::start()
 	welcome.setId(id_);
 	std::string welcome_str = requests::RequestFactory::instance()->convert(welcome);
 	send(welcome_str);
+
+	read();
+}
+
+void Session::read()
+{
 	socket_.async_read_some(boost::asio::buffer(data_, buffer_length),
 		boost::bind(&Session::handle_read, this,
 		boost::asio::placeholders::error,
@@ -52,7 +58,7 @@ void Session::handle_read(const boost::system::error_code& error,
 	}
 
 	// We read some data, let's read more
-	start();
+	read();
 }
 
 void Session::handle_write(const boost::system::error_code& error)

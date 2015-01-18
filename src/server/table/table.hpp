@@ -6,6 +6,7 @@
 #include "server/player.hpp"
 
 #include <vector>
+#include <string>
 
 namespace table {
 
@@ -13,6 +14,8 @@ namespace table {
 	class Table : public requests::RequestHandler
 	{
 	public:
+		Table();
+
 		/// @brief Default behavior for requests (not supported)
 		virtual void handle(requests::Request &req);
 	
@@ -22,8 +25,15 @@ namespace table {
 		/// @brief Starts game
 		void startGame();
 
+		virtual void handle(requests::Msg &req) {}
+		virtual void handle(requests::CreateTable &req) {}
+		virtual void handle(requests::Fetch &req) {}
+
+		std::string desc();
+
 	private:
 		std::vector<Player *> players_;
+		std::string desc_;
 		// GameState *state;
 	};
 

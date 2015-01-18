@@ -2,6 +2,7 @@
 #define POKER_TABLE_LIST_REQUEST_H
 
 #include "common/requests/request.hpp"
+#include "common/id_container.hpp"
 
 #include <string>
 #include <vector>
@@ -17,6 +18,9 @@ namespace requests {
 		TableList();
 		~TableList();
 
+		/// @brief Add table to list
+		void addTable(int k, std::string label);
+		
 		/// Default acception enabling request handling by different handlers
 		virtual void acceptHandler(RequestHandler &handler);
 
