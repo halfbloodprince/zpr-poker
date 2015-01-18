@@ -11,7 +11,7 @@ namespace requests {
 	class Act : public Request
 	{
 	public:
-		Act(const std::string &data);
+		Act(const std::string &name);
 		~Act();
 
 		std::string& name();
