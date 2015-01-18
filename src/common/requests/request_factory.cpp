@@ -34,6 +34,15 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		return new Act(root["name"].asString());
 	if (root["type"] == "error")
 		return new Act(root["data"].asString());
+	if (root["type"] == "table_list") {
+		TableList *tables = new TableList();
+		for (Json::ValueIterator it = root["tables"].begin();
+			it != root["tables"].end(); ++it) {
+			tables->tables_.push_back(std::make_pair((*it)["id"].asInt(),
+				(*it)["desc"].asString()));
+		}
+		return new Act(root["tables"].asString());
+	}
 	
 	// request was not recognized
 	return NULL;
@@ -79,6 +88,23 @@ std::string RequestFactory::convert(Error &req)
 	Json::Value root;
 	root["type"] = "error";
 	root["data"] = req.data();
+	Json::FastWriter writer;
+	return writer.write(root);
+}
+
+std::string RequestFactory::convert(TableList &req)
+{
+	Json::Value root;
+	Json::Value node;
+
+	root["type"] = "table_list";
+	root["tables"] = Json::Value(Json::arrayValue);
+	for (auto it = req.tables_.begin(); it != req.tables_.end(); ++it) {
+		node["id"] = it->first;
+		node["desc"] = it->second;
+		root["tables"].append(node);
+	}
+
 	Json::FastWriter writer;
 	return writer.write(root);
 }

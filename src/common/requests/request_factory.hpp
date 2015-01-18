@@ -7,6 +7,7 @@
 #include "common/requests/joined.hpp"
 #include "common/requests/act.hpp"
 #include "common/requests/error.hpp"
+#include "common/requests/table_list.hpp"
 #include <string>
 
 namespace requests {
@@ -29,6 +30,7 @@ namespace requests {
 		std::string convert(Joined &req);
 		std::string convert(Act &req);
 		std::string convert(Error &req);
+		std::string convert(TableList &req);
 
 	private:
 		RequestFactory();
