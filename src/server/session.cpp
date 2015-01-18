@@ -13,6 +13,10 @@ Session::Session(boost::asio::io_service& io_service, requests::RequestHandler *
 
 void Session::start()
 {
+	requests::Welcome welcome;
+	welcome.setId(id_);
+	std::string welcome_str = requests::RequestFactory::instance()->convert(welcome);
+	send(welcome_str);
 	socket_.async_read_some(boost::asio::buffer(data_, buffer_length),
 		boost::bind(&Session::handle_read, this,
 		boost::asio::placeholders::error,
@@ -56,4 +60,12 @@ void Session::handle_write(const boost::system::error_code& error)
 	// TODO
 	if (error)
 		return;
+}
+
+void Session::setId(int id) {
+	id_ = id;
+}
+
+int Session::id() {
+	return id_;
 }

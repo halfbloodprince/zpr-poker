@@ -25,6 +25,12 @@ public:
 	/// @param[in] 
 	void setHandler(requests::RequestHandler *handler);
 
+	/// @brief Sets id
+	void setId(int id);
+
+	/// @brief Gets id
+	int id();
+
 	/// @brief Get access to session's socket
 	tcp::socket &socket();
 
@@ -42,6 +48,9 @@ protected:
 	requests::RequestHandler *handler_;
 	static const short buffer_length = 1024;
 	char data_[buffer_length];
+
+	/// id of this session
+	int id_;
 };
 
 #endif

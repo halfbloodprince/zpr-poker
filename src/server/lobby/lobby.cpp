@@ -13,29 +13,21 @@ void Lobby::handle(requests::Request &req)
 
 void Lobby::handle(requests::Msg &req)
 {
-	for (std::vector<Session *>::iterator it = sessions_.begin();
-		it != sessions_.end(); ++it) {
+	for (std::map<int, Session *>::iterator it = sessions_.data_.begin();
+		it != sessions_.data_.end(); ++it) {
 		std::string str = requests::RequestFactory::instance()->convert(req);
-		(*it)->send(str);
+		it->second->send(str);
 	}
 }
 
 void Lobby::handle(requests::CreateTable &req)
 {
-	int id = freeTableId();
 	table::Table *tab = new table::Table();
-	tables_[id] = tab;
-	
+	int id = tables_.add(tab);	
 }
 
 void Lobby::addSession(Session *ses)
 {
-	sessions_.push_back(ses);
-}
-
-int Lobby::freeTableId()
-{
-	int ret = 0;
-	while (tables_.find(ret) != tables_.end()) ++ret;
-	return ret;
+	int id = sessions_.add(ses);
+	ses->setId(id);
 }

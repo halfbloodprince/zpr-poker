@@ -123,7 +123,7 @@ std::string RequestFactory::convert(TableList &req)
 	return writer.write(root);
 }
 
-std::string RequestFactory::convert(Error &req)
+std::string RequestFactory::convert(Welcome &req)
 {
 	Json::Value root;
 	root["type"] = "welcome";

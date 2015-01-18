@@ -19,6 +19,9 @@ namespace requests {
 		/// @brief Get id of related player
 		int id();
 
+		/// @brief Set id in this request
+		void setId(int id);
+
 	private:
 		/// Id of related player
 		int id_;

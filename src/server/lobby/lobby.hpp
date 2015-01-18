@@ -6,6 +6,7 @@
 #include "common/requests/create_table.hpp"
 #include "server/session.hpp"
 #include "server/table/table.hpp"
+#include "common/id_container.hpp"
 
 #include <vector>
 #include <map>
@@ -33,11 +34,8 @@ namespace lobby {
 		void createTable();
 
 	private:
-		std::vector<Session *> sessions_;
-		std::map<int, table::Table *> tables_;
-
-		/// @brief Find free table id
-		int freeTableId();
+		IdContainer<Session *> sessions_;
+		IdContainer<table::Table *> tables_;
 	};
 
 }

@@ -10,7 +10,7 @@ Welcome::Welcome()
 Welcome::~Welcome()
 {}
 
-void Act::acceptHandler(RequestHandler &handler)
+void Welcome::acceptHandler(RequestHandler &handler)
 {
 	handler.handle(*this);
 }
