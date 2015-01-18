@@ -44,6 +44,8 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		}
 		ret = new Act(root["tables"].asString());
 	}
+	else if (root["type"] == "welcome")
+		ret = new Welcome();
 	// TODO error handling
 
 	if (ret) {
@@ -114,9 +116,18 @@ std::string RequestFactory::convert(TableList &req)
 		node["desc"] = it->second;
 		root["tables"].append(node);
 	}
-	
+
 	root["player_id"] = req.id();
 
+	Json::FastWriter writer;
+	return writer.write(root);
+}
+
+std::string RequestFactory::convert(Error &req)
+{
+	Json::Value root;
+	root["type"] = "welcome";
+	root["player_id"] = req.id();
 	Json::FastWriter writer;
 	return writer.write(root);
 }
