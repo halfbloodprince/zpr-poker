@@ -11,8 +11,17 @@ namespace requests {
 	class Request
 	{
 	public:
+		friend class RequestFactory;
+		
 		/// Accept object which will handle this request
 		virtual void acceptHandler(RequestHandler &handler)=0;
+
+		/// @brief Get id of related player
+		int id();
+
+	private:
+		/// Id of related player
+		int id_;
 	};
 
 }

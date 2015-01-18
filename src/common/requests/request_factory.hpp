@@ -22,6 +22,8 @@ namespace requests {
 		static RequestFactory *instance();
 
 		/// @brief Convert given raw data to request object
+		/// @param buf bufer containing data
+		/// @param len length of received data
 		Request *convert(const char *buf, int len);
 
 		/// @brief Convert given request to raw data to be send
