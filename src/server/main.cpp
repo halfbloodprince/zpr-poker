@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 	{
 		if (argc != 2)
 		{
-			std::cerr << "Usage: async_tcp_echo_server <port>\n";
+			std::cerr << "Usage: pokerd <port>\n";
 			return 1;
 		}
 		boost::asio::io_service io_service;
