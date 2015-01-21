@@ -54,6 +54,8 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		ret = new Fetch(root["what"].asString());
 	else if (root["type"] == "start")
 		ret = new Start();
+	else if (root["type"] == "join")
+		ret = new Join(root["table"].asInt());
 	else
 		ret = new Error("not recognized");
 
@@ -155,6 +157,16 @@ std::string RequestFactory::convert(Start &req)
 {
 	Json::Value root;
 	root["type"] = "start";
+	root["player_id"] = req.id();
+	Json::FastWriter writer;
+	return writer.write(root);
+}
+
+std::string RequestFactory::convert(Join &req)
+{
+	Json::Value root;
+	root["type"] = "join";
+	root["table"] = req.table();
 	root["player_id"] = req.id();
 	Json::FastWriter writer;
 	return writer.write(root);
