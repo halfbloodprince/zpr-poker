@@ -2,7 +2,7 @@
 
 using namespace table;
 
-Table::Table() {
+Table::Table(requests::RequestHandler *parent) : parent_(parent) {
 	desc_ = "Default table";
 }
 
@@ -21,9 +21,15 @@ void Table::handle(requests::Act &req)
 	// TODO making action
 }
 
-void Table::addPlayer(Player *player)
+void Table::handle(requests::Quit &req)
 {
-	players_.push_back(player);
+	players_.get(req.id())->setHandler(parent_);
+	players_.remove(req.id());
+}
+
+void Table::addPlayer(std::shared_ptr<Session> player)
+{
+	players_.add(player);
 }
 
 std::string Table::desc() {
