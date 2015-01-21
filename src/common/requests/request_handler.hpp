@@ -11,6 +11,7 @@ namespace requests {
 	class CreateTable;
 	class Fetch;
 	class Start;
+	class Quit;
 
 	/// @brief Base class for all handlers
 	class RequestHandler
@@ -24,6 +25,7 @@ namespace requests {
 		virtual void handle(Fetch &req) {}
 		virtual void handle(Start &req) {}
 		virtual void handle(Act &req) {}
+		virtual void handle(Quit &req) {}
 	};
 
 }

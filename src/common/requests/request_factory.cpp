@@ -56,6 +56,8 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		ret = new Start();
 	else if (root["type"] == "join")
 		ret = new Join(root["table"].asInt());
+	else if (root["type"] == "quit")
+		ret = new Join(root["full"].asBool());	// false as default
 	else
 		ret = new Error("not recognized");
 
@@ -167,6 +169,16 @@ std::string RequestFactory::convert(Join &req)
 	Json::Value root;
 	root["type"] = "join";
 	root["table"] = req.table();
+	root["player_id"] = req.id();
+	Json::FastWriter writer;
+	return writer.write(root);
+}
+
+std::string RequestFactory::convert(Quit &req)
+{
+	Json::Value root;
+	root["type"] = "quit";
+	root["table"] = req.full();
 	root["player_id"] = req.id();
 	Json::FastWriter writer;
 	return writer.write(root);
