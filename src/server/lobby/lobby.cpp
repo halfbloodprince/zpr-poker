@@ -21,7 +21,6 @@ void Lobby::handle(requests::Msg &req)
 
 void Lobby::handle(requests::Fetch &req)
 {
-	std::cout << "fetch " << req.what() << std::endl;
 	if (req.what() == "table_list") {
 		requests::TableList ans;
 		ans.setId(req.id());
@@ -36,6 +35,27 @@ void Lobby::handle(requests::Fetch &req)
 		}
 	}
 	// TODO other requests
+}
+
+void Lobby::handle(requests::Join &req)
+{
+	int id = req.table();
+	if (!sessions_.exist(req.id())) {
+		// TODO handle this situation
+	} else if (!tables_.exist(id)) {
+		requests::Error err("Table does not exist");
+		err.setId(req.id());
+
+		std::string data = requests::RequestFactory::instance()->convert(err);
+		sessions_.data_[req.id()]->send(data);
+	} else {
+		table::Table *tab = tables_.get(id);
+		requests::Joined ans(id);
+		std::string data = requests::RequestFactory::instance()->convert(ans);
+		Session *ses = sessions_.get(req.id());
+		ses->setHandler(tab);
+		ses->send(data);
+	}
 }
 
 void Lobby::handle(requests::CreateTable &req)

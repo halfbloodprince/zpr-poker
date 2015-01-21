@@ -5,6 +5,7 @@
 #include "common/requests/msg.hpp"
 #include "common/requests/create_table.hpp"
 #include "common/requests/fetch.hpp"
+#include "common/requests/join.hpp"
 #include "server/session.hpp"
 #include "server/table/table.hpp"
 #include "common/id_container.hpp"
@@ -32,6 +33,11 @@ namespace lobby {
 		/// to client. Client is binded to this table until 
 		/// quit or disconnected.
 		virtual void handle(requests::CreateTable &req);
+
+		/// @brief Handle joining a table
+		/// @details Requested table must exist and
+		/// game policy should allow to enter
+		virtual void handle(requests::Join &req);
 
 		/// @brief Add a session to this lobby
 		void addSession(Session *ses); 

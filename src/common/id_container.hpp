@@ -34,6 +34,11 @@ public:
 	bool exist(int k) {
 		return data_.find(k) != data_.end();
 	}
+
+	/// @brief Get element associated with given key, assuming it exists
+	T &get(int k) {
+		return data_.find(k)->second;
+	}
 };
 
 #endif
