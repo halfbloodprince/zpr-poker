@@ -11,15 +11,15 @@ namespace requests {
 	class Joined : public Request
 	{
 	public:
-		Joined(int id);
+		Joined(int table);
 		~Joined();
 
-		int id();
+		int table();
 
 		virtual void acceptHandler(RequestHandler &handler);
 
 	private:
-		int id_;
+		int table_;
 	};
 
 }

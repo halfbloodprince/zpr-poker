@@ -42,6 +42,14 @@ void Lobby::handle(requests::CreateTable &req)
 {
 	table::Table *tab = new table::Table();
 	int id = tables_.add(tab);
+
+	if (sessions_.exist(req.id())) {
+		requests::Joined ans(id);
+		std::string data = requests::RequestFactory::instance()->convert(ans);
+		Session *ses = sessions_.data_[req.id()];
+		ses->setHandler(tab);
+		ses->send(data);
+	}
 }
 
 void Lobby::addSession(Session *ses)

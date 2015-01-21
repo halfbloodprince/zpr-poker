@@ -11,6 +11,16 @@ void Table::handle(requests::Request &req)
 	// TODO not supported
 }
 
+void Table::handle(requests::Start &req)
+{
+	// TODO starting a game
+}
+
+void Table::handle(requests::Act &req)
+{
+	// TODO making action
+}
+
 void Table::addPlayer(Player *player)
 {
 	players_.push_back(player);

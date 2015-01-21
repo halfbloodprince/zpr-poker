@@ -3,17 +3,17 @@
 
 using namespace requests;
 
-Joined::Joined(int id) 
-	: id_(id)
+Joined::Joined(int table) 
+	: table_(table)
 {
 }
 
 Joined::~Joined()
 {}
 
-int Joined::id()
+int Joined::table()
 {
-	return id_;
+	return table_;
 }
 
 void Joined::acceptHandler(RequestHandler &handler)

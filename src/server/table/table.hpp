@@ -19,15 +19,17 @@ namespace table {
 		/// @brief Default behavior for requests (not supported)
 		virtual void handle(requests::Request &req);
 	
+		/// @brief Starts the game
+		virtual void handle(requests::Start &req);
+
+		/// @brief Handle action received from player
+		virtual void handle(requests::Act &req);
+		
 		/// @brief Add player to table
 		void addPlayer(Player *player);
 
 		/// @brief Starts game
 		void startGame();
-
-		virtual void handle(requests::Msg &req) {}
-		virtual void handle(requests::CreateTable &req) {}
-		virtual void handle(requests::Fetch &req) {}
 
 		std::string desc();
 

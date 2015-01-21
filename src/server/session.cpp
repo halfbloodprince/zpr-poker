@@ -72,6 +72,10 @@ void Session::setId(int id) {
 	id_ = id;
 }
 
+void Session::setHandler(requests::RequestHandler *handler) {
+	handler_ = handler;
+}
+
 int Session::id() {
 	return id_;
 }
