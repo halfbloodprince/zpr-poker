@@ -21,11 +21,21 @@ namespace requests {
 		virtual void handle(Msg &req) {
 			handle(reinterpret_cast<Request&>(req));
 		}
-		virtual void handle(CreateTable &req) {}
-		virtual void handle(Fetch &req) {}
-		virtual void handle(Start &req) {}
-		virtual void handle(Act &req) {}
-		virtual void handle(Quit &req) {}
+		virtual void handle(CreateTable &req) {
+			handle(reinterpret_cast<Request&>(req));
+		}
+		virtual void handle(Fetch &req) {
+			handle(reinterpret_cast<Request&>(req));
+		}
+		virtual void handle(Start &req) {
+			handle(reinterpret_cast<Request&>(req));
+		}
+		virtual void handle(Act &req) {
+			handle(reinterpret_cast<Request&>(req));
+		}
+		virtual void handle(Quit &req) {
+			handle(reinterpret_cast<Request&>(req));
+		}
 	};
 
 }
