@@ -14,6 +14,7 @@ namespace requests {
 		Start();
 		~Start();
 
+		/// @brief call handler handle method
 		virtual void acceptHandler(RequestHandler &handler);
 	};
 

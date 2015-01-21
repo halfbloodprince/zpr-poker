@@ -31,14 +31,31 @@ namespace requests {
 
 		/// @brief Convert given request to raw data to be send
 		std::string convert(Msg &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(CreateTable &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(Joined &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(Act &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(Error &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(TableList &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(Welcome &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(Fetch &req);
+
+		/// @brief Convert given request to raw data to be send
 		std::string convert(Start &req);
+
 
 	private:
 		RequestFactory();

@@ -31,6 +31,7 @@ namespace table {
 		/// @brief Starts game
 		void startGame();
 
+		/// @brief Returns short description of this table
 		std::string desc();
 
 	private:

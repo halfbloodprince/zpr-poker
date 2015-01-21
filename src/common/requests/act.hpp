@@ -14,6 +14,7 @@ namespace requests {
 		Act(const std::string &name);
 		~Act();
 
+		/// @brief Give name of thin action
 		std::string& name();
 
 		/// Default acception enabling request handling by different handlers

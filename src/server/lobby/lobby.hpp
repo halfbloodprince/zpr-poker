@@ -33,9 +33,8 @@ namespace lobby {
 		/// quit or disconnected.
 		virtual void handle(requests::CreateTable &req);
 
+		/// @brief Add a session to this lobby
 		void addSession(Session *ses); 
-
-		void createTable();
 
 	private:
 		IdContainer<Session *> sessions_;

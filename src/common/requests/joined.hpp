@@ -13,7 +13,8 @@ namespace requests {
 	public:
 		Joined(int table);
 		~Joined();
-
+		
+		/// @brief returns id of table to which player joined
 		int table();
 
 		virtual void acceptHandler(RequestHandler &handler);

@@ -15,6 +15,7 @@ namespace requests {
 		Error(const std::string &data);
 		~Error();
 
+		/// @brief Returns error message
 		std::string& data();
 
 		/// Default acception enabling request handling by different handlers

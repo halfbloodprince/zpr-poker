@@ -14,6 +14,7 @@ namespace requests {
 		Msg(const std::string &data);
 		~Msg();
 
+		/// @brief Returns content of message
 		std::string& data();
 
 		virtual void acceptHandler(RequestHandler &handler);

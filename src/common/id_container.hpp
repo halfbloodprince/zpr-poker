@@ -21,13 +21,16 @@ public:
 	void remove(const int id) {
 		data_.erase(id);
 	}
-
+	
+	/// @brief Returns id which can be binded to new element
 	int findFreeId() {
 		int ret = 0;
 		while (data_.find(ret) != data_.end()) ++ret;
 		return ret;
 	}
-	
+
+	/// @brief Checks if given key is used
+	/// @return true if k is used by an element, false otherwise
 	bool exist(int k) {
 		return data_.find(k) != data_.end();
 	}

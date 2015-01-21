@@ -16,6 +16,7 @@ namespace requests {
 		Fetch(std::string what);
 		~Fetch();
 
+		/// @brief What is request for
 		std::string &what();
 
 		/// Default acception enabling request handling by different handlers

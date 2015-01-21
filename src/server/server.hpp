@@ -14,8 +14,10 @@ public:
 	Server(boost::asio::io_service& io_service, short port);
 
 private:
+	/// @brief Start accepting connections
 	void start_accept();
 
+	/// @brief Handle new connection
 	void handle_accept(Session* new_session,
 		const boost::system::error_code& error);
 

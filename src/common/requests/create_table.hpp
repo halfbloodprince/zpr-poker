@@ -11,7 +11,7 @@ namespace requests {
 	public:
 		CreateTable();
 		~CreateTable();
-
+		
 		virtual void acceptHandler(RequestHandler &handler);
 
 	private:
