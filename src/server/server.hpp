@@ -18,7 +18,7 @@ private:
 	void start_accept();
 
 	/// @brief Handle new connection
-	void handle_accept(Session* new_session,
+	void handle_accept(std::shared_ptr<Session> new_session,
 		const boost::system::error_code& error);
 
 	boost::asio::io_service& io_service_;

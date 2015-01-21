@@ -52,7 +52,7 @@ void Lobby::handle(requests::Join &req)
 		table::Table *tab = tables_.get(id);
 		requests::Joined ans(id);
 		std::string data = requests::RequestFactory::instance()->convert(ans);
-		Session *ses = sessions_.get(req.id());
+		std::shared_ptr<Session> ses = sessions_.get(req.id());
 		ses->setHandler(tab);
 		ses->send(data);
 	}
@@ -66,13 +66,22 @@ void Lobby::handle(requests::CreateTable &req)
 	if (sessions_.exist(req.id())) {
 		requests::Joined ans(id);
 		std::string data = requests::RequestFactory::instance()->convert(ans);
-		Session *ses = sessions_.data_[req.id()];
+		std::shared_ptr<Session> ses = sessions_.data_[req.id()];
 		ses->setHandler(tab);
 		ses->send(data);
 	}
 }
 
-void Lobby::addSession(Session *ses)
+void Lobby::handle(requests::Quit &req)
+{
+	int pid = req.id();
+	if (sessions_.exist(req.id())) {
+		sessions_.get(pid)->setHandler(NULL);
+		sessions_.remove(pid);
+	}
+}
+
+void Lobby::addSession(std::shared_ptr<Session> ses)
 {
 	int id = sessions_.add(ses);
 	ses->setId(id);

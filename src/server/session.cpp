@@ -11,6 +11,13 @@ Session::Session(boost::asio::io_service& io_service, requests::RequestHandler *
 {
 }
 
+Session::~Session()
+{
+	boost::system::error_code ec;
+	socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+	socket_.close();
+}
+
 void Session::start()
 {
 	requests::Welcome welcome;
@@ -23,8 +30,12 @@ void Session::start()
 
 void Session::read()
 {
+	// No point in receiving when cannot handle
+	if (!handler_)
+		return;
+
 	socket_.async_read_some(boost::asio::buffer(data_, buffer_length),
-		boost::bind(&Session::handle_read, this,
+		boost::bind(&Session::handle_read, shared_from_this(),
 		boost::asio::placeholders::error,
 		boost::asio::placeholders::bytes_transferred));
 }
@@ -33,7 +44,7 @@ void Session::send(std::string &req)
 {
 	boost::asio::async_write(socket_,
 		boost::asio::buffer(req),
-		boost::bind(&Session::handle_write, this,
+		boost::bind(&Session::handle_write, shared_from_this(),
 		boost::asio::placeholders::error));
 }
 
@@ -44,8 +55,12 @@ tcp::socket &Session::socket() {
 void Session::handle_read(const boost::system::error_code& error,
 	size_t bytes_transferred)
 {
-	if (error)
+	if (error) {
+		requests::Quit req(true);
+		req.acceptHandler(*handler_);
 		return;
+	}
+
 
 	requests::Request* req = 
 		requests::RequestFactory::instance()->convert(data_, bytes_transferred);

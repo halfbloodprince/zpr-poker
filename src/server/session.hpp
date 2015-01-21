@@ -9,11 +9,12 @@
 using boost::asio::ip::tcp;
 
 /// @brief Represent one connection with client
-class Session
+class Session : public std::enable_shared_from_this<Session>
 {
 public:
 	/// @brief Create new session
 	Session(boost::asio::io_service& io_service, requests::RequestHandler *handler);
+	virtual ~Session();
 
 	/// @brief Start receiving client's requests
 	void start();

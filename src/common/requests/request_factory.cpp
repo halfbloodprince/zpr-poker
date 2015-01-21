@@ -20,7 +20,6 @@ RequestFactory *RequestFactory::instance() {
 
 /// @brief Convert given raw data to request object
 Request *RequestFactory::convert(const char *buf, int len) {
-	std::cout << buf << " " << len << std::endl;
 	Json::Value root;
 	Json::Reader reader;
 	bool correct = reader.parse(buf, root, false);
@@ -57,9 +56,10 @@ Request *RequestFactory::convert(const char *buf, int len) {
 	else if (root["type"] == "join")
 		ret = new Join(root["table"].asInt());
 	else if (root["type"] == "quit")
-		ret = new Join(root["full"].asBool());	// false as default
-	else
+		ret = new Quit(root["full"].asBool());	// false as default
+	else {
 		ret = new Error("not recognized");
+	}
 
 	if (ret) {
 		ret->id_ = root["player_id"].asInt();

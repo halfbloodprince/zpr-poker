@@ -6,6 +6,7 @@
 #include "common/requests/create_table.hpp"
 #include "common/requests/fetch.hpp"
 #include "common/requests/join.hpp"
+#include "common/requests/quit.hpp"
 #include "server/session.hpp"
 #include "server/table/table.hpp"
 #include "common/id_container.hpp"
@@ -39,11 +40,15 @@ namespace lobby {
 		/// game policy should allow to enter
 		virtual void handle(requests::Join &req);
 
+		/// @brief Handle quiting
+		/// @details Also done when connection is lost
+		virtual void handle(requests::Quit &req);
+
 		/// @brief Add a session to this lobby
-		void addSession(Session *ses); 
+		void addSession(std::shared_ptr<Session> ses); 
 
 	private:
-		IdContainer<Session *> sessions_;
+		IdContainer<std::shared_ptr<Session> > sessions_;
 		IdContainer<table::Table *> tables_;
 	};
 
