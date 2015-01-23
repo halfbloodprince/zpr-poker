@@ -38,4 +38,5 @@ e.Program(target='pokerd', source=['server/server.cpp',
 			'common/requests/fetch.cpp',
 			'common/requests/join.cpp',
 			'common/requests/quit.cpp',
+			'common/requests/jsoncpp.cpp',
 			'common/requests/joined.cpp'])
