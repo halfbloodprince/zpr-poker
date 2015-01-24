@@ -57,6 +57,7 @@ void Session::handle_read(const boost::system::error_code& error,
 {
 	if (error) {
 		requests::Quit req(true);
+		req.setId(id_);
 		req.acceptHandler(*handler_);
 		return;
 	}
