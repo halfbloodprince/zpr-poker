@@ -43,6 +43,21 @@ e.Program(target='pokerd', source=['server/server.cpp',
 			'common/requests/joined.cpp'])
 
 e.Program(target='pokerc', source=['client/client.cpp',
+			'common/requests/request_factory.cpp',
+			'common/requests/msg.cpp',
+			'common/requests/act.cpp',
+			'common/requests/error.cpp',
+			'common/requests/welcome.cpp',
+			'common/requests/table_list.cpp',
+			'common/requests/start.cpp',
+			'common/requests/request.cpp',
+			'common/requests/create_table.cpp',
+			'common/requests/fetch.cpp',
+			'common/requests/join.cpp',
+			'common/requests/quit.cpp',
+			'common/requests/cards.cpp',
+			'common/requests/joined.cpp',
+			'jsoncpp.cpp',
 			'client/main.cpp'])
 
 e.Command(target='doc', source=['doxygen.conf'],

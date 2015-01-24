@@ -3,6 +3,8 @@
 #include <string>
 #include <boost/thread/thread.hpp>
 
+using namespace client;
+
 int main() {
 	boost::asio::io_service io_service;
 	std::string line;

@@ -13,6 +13,7 @@ namespace requests {
 	class Start;
 	class Quit;
 	class Cards;
+	class Welcome;
 
 	/// @brief Base class for all handlers
 	class RequestHandler
@@ -38,6 +39,9 @@ namespace requests {
 			handle(reinterpret_cast<Request&>(req));
 		}
 		virtual void handle(Cards &req) {
+			handle(reinterpret_cast<Request&>(req));
+		}
+		virtual void handle(Welcome &req) {
 			handle(reinterpret_cast<Request&>(req));
 		}
 	};

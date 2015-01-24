@@ -1,7 +1,10 @@
 #include "client/client.hpp"
+#include "common/requests/request_factory.hpp"
 
 #include <boost/bind.hpp>
 #include <iostream>
+
+using namespace client;
 
 Client::Client(boost::asio::io_service &io_service, std::string &ip, int port)
 	: io_service_(io_service),
@@ -22,6 +25,17 @@ void Client::write(std::string &req) {
 		boost::asio::placeholders::error));
 }
 
+void Client::handle(requests::Request &req)
+{
+	std::cout << "Received data was not recognized\n";
+}
+
+void Client::handle(requests::Welcome &req)
+{
+	std::cout << "Welcome on server\n";
+	id_ = req.id();
+}
+
 void Client::read_more()
 {
 	socket_.async_read_some(boost::asio::buffer(buffer_, buffer_size_),
@@ -37,7 +51,9 @@ void Client::handle_connect(const boost::system::error_code &e)
 
 void Client::handle_read(const boost::system::error_code &e, std::size_t len)
 {
-	std::cout << buffer_ << std::endl;
+	requests::Request *req;
+	req = requests::RequestFactory::instance()->convert(buffer_, len);
+	req->acceptHandler(*this);
 	read_more();
 }
 
