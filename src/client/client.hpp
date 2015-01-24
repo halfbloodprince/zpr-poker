@@ -13,11 +13,14 @@ public:
 	void write(std::string &req);
 
 private:
+	/// @brief receive data
+	void read_more();
+
 	/// @brief Do after successfull connection
 	void handle_connect(const boost::system::error_code &e);
 	
 	/// @brief Handle read data
-	void handle_read(const boost::system::error_code &e);
+	void handle_read(const boost::system::error_code &e, std::size_t len);
 	
 	/// @brief Do after writting
 	void handle_write(const boost::system::error_code &e);
@@ -25,6 +28,9 @@ private:
 	boost::asio::io_service &io_service_;
 	boost::asio::ip::tcp::socket socket_;
 	boost::asio::ip::tcp::endpoint endpoint_;
+	
+	const std::size_t buffer_size_ = 1024;
+	char buffer_[1024];
 };
 
 #endif
