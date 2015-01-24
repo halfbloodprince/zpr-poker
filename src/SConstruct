@@ -43,3 +43,6 @@ e.Program(target='pokerd', source=['server/server.cpp',
 
 e.Program(target='pokerc', source=['client/client.cpp',
 			'client/main.cpp'])
+
+e.Command(target='doc', source=['doxygen.conf'],
+	action='doxygen doxygen.conf')
