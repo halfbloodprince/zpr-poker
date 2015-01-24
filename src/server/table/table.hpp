@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <string>
+#include <Python.h>
 
 namespace table {
 
@@ -17,6 +18,7 @@ namespace table {
 	{
 	public:
 		Table(requests::RequestHandler *parent);
+		~Table();
 
 		/// @brief Default behavior for requests (not supported)
 		virtual void handle(requests::Request &req);
@@ -49,7 +51,7 @@ namespace table {
 		IdContainer<std::shared_ptr<Session> > players_;
 		std::string desc_;
 		requests::RequestHandler *parent_;
-		// GameState *state;
+		PyObject *game_;
 	};
 
 }

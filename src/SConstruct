@@ -8,8 +8,8 @@ BOOST_BIN="E:/Codes/lib/boost_1_57_0/stage/lib"
 e.Append( CPPPATH = '.' )
 
 if(platform.system() == "Linux"):
-   e.Append( CPPFLAGS = '-Wall -g -std=c++11 -pedantic -pthread -Wno-long-long' )
-   e.Append( LINKFLAGS = '-Wall -pthread -lboost_system -lboost_thread' )
+   e.Append( CPPFLAGS = '-Wall -g -std=c++11 -pedantic -pthread -Wno-long-long `python3.4-config --cflags` ' )
+   e.Append( LINKFLAGS = '-Wall -pthread -lboost_system -lboost_thread `python3.4-config --ldflags` ' )
 
    target = 'hello.so'
 
