@@ -13,6 +13,7 @@
 #include "common/requests/start.hpp"
 #include "common/requests/join.hpp"
 #include "common/requests/quit.hpp"
+#include "common/requests/cards.hpp"
 #include <string>
 
 namespace requests {
@@ -63,6 +64,9 @@ namespace requests {
 
 		/// @brief Convert given request to raw data to be send
 		std::string convert(Quit &req);
+
+		/// @brief Convert given request to raw data to be send
+		std::string convert(Cards &req);
 
 	private:
 		RequestFactory();

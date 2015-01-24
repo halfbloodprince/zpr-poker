@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 using namespace requests;
 
@@ -37,7 +38,7 @@ Request *RequestFactory::convert(const char *buf, int len) {
 	else if (root["type"] == "act")
 		ret = new Act(root["name"].asString());
 	else if (root["type"] == "error")
-		ret = new Act(root["data"].asString());
+		ret = new Error(root["data"].asString());
 	else if (root["type"] == "table_list") {
 		TableList *tables = new TableList();
 		for (Json::ValueIterator it = root["tables"].begin();
@@ -45,7 +46,7 @@ Request *RequestFactory::convert(const char *buf, int len) {
 			tables->tables_.push_back(std::make_pair((*it)["id"].asInt(),
 				(*it)["desc"].asString()));
 		}
-		ret = new Act(root["tables"].asString());
+		ret = tables;
 	}
 	else if (root["type"] == "welcome")
 		ret = new Welcome();
@@ -57,7 +58,14 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		ret = new Join(root["table"].asInt());
 	else if (root["type"] == "quit")
 		ret = new Quit(root["full"].asBool());	// false as default
-	else {
+	else if (root["type"] == "cards") {
+		Cards *c = new Cards();	
+		std::for_each(root["hand"].begin(), root["hand"].end(),
+			[c](Json::Value &v){c->addHand(v.asString());});
+		std::for_each(root["table"].begin(), root["table"].end(),
+			[c](Json::Value &v){c->addTable(v.asString());});
+		ret = c;
+	} else {
 		ret = new Error("not recognized");
 	}
 
@@ -180,6 +188,20 @@ std::string RequestFactory::convert(Quit &req)
 	root["type"] = "quit";
 	root["table"] = req.full();
 	root["player_id"] = req.id();
+	Json::FastWriter writer;
+	return writer.write(root);
+}
+
+std::string RequestFactory::convert(Cards &req)
+{
+	Json::Value root;
+	root["type"] = "quit";
+	root["player_id"] = req.id();
+
+	root["hand"] = Json::Value(Json::arrayValue);
+	std::copy(req.hand_.begin(), req.hand_.end(), root["hand"].begin());
+	std::copy(req.table_.begin(), req.table_.end(), root["table"].begin());
+
 	Json::FastWriter writer;
 	return writer.write(root);
 }

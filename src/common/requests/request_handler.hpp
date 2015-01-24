@@ -12,6 +12,7 @@ namespace requests {
 	class Fetch;
 	class Start;
 	class Quit;
+	class Cards;
 
 	/// @brief Base class for all handlers
 	class RequestHandler
@@ -34,6 +35,9 @@ namespace requests {
 			handle(reinterpret_cast<Request&>(req));
 		}
 		virtual void handle(Quit &req) {
+			handle(reinterpret_cast<Request&>(req));
+		}
+		virtual void handle(Cards &req) {
 			handle(reinterpret_cast<Request&>(req));
 		}
 	};

@@ -1,4 +1,8 @@
 #include "server/table/table.hpp"
+#include "common/requests/cards.hpp"
+#include "common/requests/request_factory.hpp"
+
+#include <boost/bind.hpp>
 
 using namespace table;
 
@@ -41,3 +45,18 @@ void Table::startGame()
 	// TODO
 }
 
+void Table::informPlayers()
+{
+	for_each(players_.data_.begin(), players_.data_.end(),
+		[this](std::pair<int, std::shared_ptr<Session> > a)
+		{this->informPlayer(a.second);});
+}
+
+void Table::informPlayer(std::shared_ptr<Session> player)
+{
+	requests::Cards req;
+	req.setId(player->id());
+	// TODO fill info about cards
+	std::string data = requests::RequestFactory::instance()->convert(req);
+	player->send(data);
+}

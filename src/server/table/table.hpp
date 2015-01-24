@@ -39,6 +39,12 @@ namespace table {
 		/// @brief Returns short description of this table
 		std::string desc();
 
+		/// @brief Sends information to all players about changes on the table
+		void informPlayers();
+
+		// @brief Inform given player about changes
+		void informPlayer(std::shared_ptr<Session> player);
+
 	private:
 		IdContainer<std::shared_ptr<Session> > players_;
 		std::string desc_;
