@@ -79,8 +79,36 @@ Typ zapytania określa jakie parametry powinno zawierać zapytanie. Poszczególn
 \end{table}
 
 \subsection{Warstwa logiczna gry}
-Część odpowiedzialna za logikę samej gry została zaimplementowana w Pythonie.
-Serwer w trakcie rozgrywki wywołuje skrypty z poziomu c++ sterujące stanem gry.
+
+Implementacja gry została rozpoczęta od podstaw nauki języka python. Gra jest podzielona na
+kilka klas reprezentujące różne składowe. Karty do gry reprezentuje klasa Card.
+Wykorzystując tę klasę zostały utworzone klasy reprezentujące rękę (Hand) oraz klasa
+reprezentująca talię kart (Deck).Nie było potrzebny wykorzystywania dziedziczenia z klasy
+Card. Wszystkie klasy zawierają niezbędne metody do zarządzania ręką, losowania kart i
+rozdawania kart.
+
+Następnie została utworzona klasa Player, która zawiera informacje o graczu, metodę
+kopiującą oraz zbiór niezbędnych metod do gry, w tym licytacji: płacenie ciemnych, fold,
+check, call, bet, raise, allin.
+
+Do określenia siły ręki służy klasa HandEvaulate. Na podstawie 7 kart, wyszukuje możliwe
+najlepszy układ kart, który potem go zwraca.
+
+W klasie Game została zrealizowana cała logika gry. W momencie uruchomienia gry z
+graczami, losowane są karty i przeprowadzona licytacja. Następnie sprawdzane jest ilu graczy
+jest jeszcze w grze, jeśli został tylko 1 gracz wyłaniany jest zwycięzca. Jeżeli jest większa
+ilość graczy przechodzi się do kolejnych etapów gry: flop, turn, river. Po każdym etapie
+przeprowadzana jest licytacja i sprawdzanie czy jest wygrany. Po ostatniej licytacji określany
+jest zwycięzca na podstawie siły ręki. Niestety nie zostało zaimplementowane dokładne
+porównywanie rąk. Jeśli kilku graczy ma np. high card albo two pair to ogłaszanych jest kilku
+zwycięzców.
+
+Klasa Table, służy do dodawania graczy do stolika oraz zarządzania grą.
+W procesie tworzenia, najpierw została zaimplementowana wersja sekwencyjna, w której
+gracze licytacje przeprowadzają w konsoli. Działała ona bez najmniejszych błędów. Jej
+działanie można przetestować ściągając wersje z repozytorium.
+Następnie na potrzeby gry sieciowej, dodane zostało proste api i wersja asynchroniczna. W
+pliku main.py można przetestować działanie gry.
 
 \section{Korzystanie z aplikacji}
 Aby uruchomić serwer:\\
@@ -102,6 +130,5 @@ Praktyka inżynierska pokazuje, jak trudno jest prawidłowo oszacować koszty pr
 braki w składzie zespołu. Dodatkowo dydaktyczny charakter projektu sprawił,
 że stosowane techniki wymagały nieraz głębszej analizy i zrozumienia, co
 znacznie zwiększyło czas realizacji funkcjonalności.
-
 
 \end{document}
