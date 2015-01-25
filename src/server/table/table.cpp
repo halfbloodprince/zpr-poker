@@ -13,9 +13,11 @@ Table::Table(requests::RequestHandler *parent) : parent_(parent) {
 
 	Py_Initialize();
     	PyRun_SimpleString("import sys; sys.path.append('./scripting')");
-	PyObject *name = PyUnicode_FromString("game");
+	PyObject *name = PyUnicode_FromString("table");
+	if (!name)
+		throw std::exception();
 	PyObject *module = PyImport_Import(name);
-	PyObject *game_class = PyObject_GetAttrString(module, "Game");
+	PyObject *game_class = PyObject_GetAttrString(module, "Table");
 	game_ = PyObject_CallObject(game_class, NULL);
 
 	if (!game_)
@@ -35,7 +37,11 @@ void Table::handle(requests::Request &req)
 
 void Table::handle(requests::Start &req)
 {
-	// TODO starting a game
+	PyObject *pFunc = PyObject_GetAttrString(game_, "start");
+	if (!pFunc || !PyCallable_Check(pFunc))
+		throw std::exception();
+
+	PyObject *res = PyObject_CallObject(pFunc, NULL);
 }
 
 void Table::handle(requests::Act &req)
@@ -64,7 +70,18 @@ void Table::handle(requests::Quit &req)
 
 void Table::addPlayer(std::shared_ptr<Session> player)
 {
-	players_.add(player);
+	int id = players_.add(player);
+
+	PyObject *pFunc = PyObject_GetAttrString(game_, "add_players");
+	if (!pFunc || !PyCallable_Check(pFunc))
+		throw std::exception();
+	
+	PyObject *pArgs = PyTuple_New(2);
+	PyTuple_SetItem(pArgs, 0, PyLong_FromLong(player->id()));
+	PyTuple_SetItem(pArgs, 1, PyLong_FromLong(player->cash_));
+
+	PyObject *res = PyObject_CallObject(pFunc, pArgs);
+	Py_DECREF(pArgs);
 }
 
 std::string Table::desc() {
