@@ -1,0 +1,21 @@
+Poker, (Srednio) Zaawansowane Programownie w C++
+
+To compile you need SCons, Python3.4 and boost installed.
+You can specify path in src/SConstruct file.
+When ready run (inside src folder):
+
+to build everything
+$ scons
+
+to build only server:
+$ scons pokerd
+or (on Windows):
+$ scons pokerd.exe
+
+to build only client:
+$ scons pokerc
+or (on Windows):
+$ scons pokerc.exe
+
+to generate code documentation (need doxygen installed)
+$ scons doc
