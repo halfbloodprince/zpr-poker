@@ -38,6 +38,7 @@ public:
 	/// @brief Get access to session's socket
 	tcp::socket &socket();
 
+	int cash_;
 protected:
 	/// @brief Proceed with received data
 	/// @details Data buffer is converted into request object and sent to

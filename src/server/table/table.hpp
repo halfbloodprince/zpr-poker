@@ -35,9 +35,6 @@ namespace table {
 		/// @brief Add player to table
 		void addPlayer(std::shared_ptr<Session> player);
 
-		/// @brief Starts game
-		void startGame();
-
 		/// @brief Returns short description of this table
 		std::string desc();
 
@@ -47,11 +44,14 @@ namespace table {
 		// @brief Inform given player about changes
 		void informPlayer(std::shared_ptr<Session> player);
 
+		void playNext();
+
 	private:
 		IdContainer<std::shared_ptr<Session> > players_;
 		std::string desc_;
 		requests::RequestHandler *parent_;
 		PyObject *game_;
+		int turn_;
 	};
 
 }

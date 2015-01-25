@@ -8,6 +8,7 @@
 Session::Session(boost::asio::io_service& io_service, requests::RequestHandler *handler)
 	: socket_(io_service)
 	, handler_(handler)
+	, cash_(1500)
 {
 }
 

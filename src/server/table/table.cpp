@@ -8,7 +8,9 @@
 
 using namespace table;
 
-Table::Table(requests::RequestHandler *parent) : parent_(parent) {
+Table::Table(requests::RequestHandler *parent)
+	: parent_(parent)
+	, turn_(0) {
 	desc_ = "Default table";
 
 	Py_Initialize();
@@ -46,20 +48,33 @@ void Table::handle(requests::Start &req)
 
 void Table::handle(requests::Act &req)
 {
-	PyObject *func = PyObject_GetAttrString(game_, "fun");
+	PyObject *func = PyObject_GetAttrString(game_, "auction");
 	if (!func || !PyCallable_Check(func))
 		std::cout << "no function!\n";
 
-	PyObject *args = PyTuple_New(1);
-	PyObject *val = PyLong_FromLong(7);
-	PyTuple_SetItem(args, 0, val);
-	std::cout << "calling\n";
+	PyObject *args = PyTuple_New(3);
 
-	PyObject *res = PyObject_CallObject(func, args);
-	std::cout << "called\n";
-	std::cout << PyLong_AsLong(res) << std::endl;
+	PyObject *pid = PyLong_FromLong(req.id());
+	PyTuple_SetItem(args, 0, pid);
 
-	// TODO making action
+	PyObject *pname = PyUnicode_FromString(req.name().c_str());
+	PyTuple_SetItem(args, 1, pname);
+
+	PyObject *pbet = PyLong_FromLong(req.bet());
+	PyTuple_SetItem(args, 2, pbet);
+
+	PyObject *pres = PyObject_CallObject(func, args);
+	int left = PyLong_AsLong(PyList_GetItem(pres, 0));
+	int success = PyLong_AsLong(PyList_GetItem(pres, 1));
+
+	if (left == 0 && success >= 0) {
+		playNext();
+	}
+
+	Py_DECREF(pid);
+	Py_DECREF(pname);
+	Py_DECREF(pbet);
+	Py_DECREF(args);
 }
 
 void Table::handle(requests::Quit &req)
@@ -88,11 +103,6 @@ std::string Table::desc() {
 	return desc_;
 }
 
-void Table::startGame()
-{
-	// TODO
-}
-
 void Table::informPlayers()
 {
 	for_each(players_.data_.begin(), players_.data_.end(),
@@ -104,7 +114,38 @@ void Table::informPlayer(std::shared_ptr<Session> player)
 {
 	requests::Cards req;
 	req.setId(player->id());
-	// TODO fill info about cards
+
+	
+	PyObject *fun = PyObject_GetAttrString(game_, "board");
+	if (!fun || !PyCallable_Check(fun))
+		throw std::exception();
+	PyObject *board = PyObject_CallObject(fun, NULL);
+
+	for (int i = 0; i < PyList_Size(board); ++i) {
+		PyObject *val = PyList_GetItem(board, i);
+		req.addTable(PyUnicode_AsUTF8(val));
+	}
+
 	std::string data = requests::RequestFactory::instance()->convert(req);
 	player->send(data);
+}
+
+void Table::playNext()
+{	
+	PyObject *fun = NULL;
+
+	if (turn_ == 0)
+		fun = PyObject_GetAttrString(game_, "play_flop");
+	else if (turn_ == 1)
+		fun = PyObject_GetAttrString(game_, "play_turn");
+	else
+		fun = PyObject_GetAttrString(game_, "play_river");
+
+	if (!fun || !PyCallable_Check(fun))
+		throw std::exception();
+
+	PyObject_CallObject(fun, NULL);
+	++turn_;
+	informPlayers();
+	Py_DECREF(fun);
 }
