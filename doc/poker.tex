@@ -1,0 +1,107 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{ucs}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+
+\newenvironment{short_list}{
+  \begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{
+  \end{itemize}
+}
+
+\title{ZPR\\
+Dokumentacja końcowa }
+
+\author{
+Paweł Szewczyk
+\and
+Konrad Ziaja
+}
+
+
+\geometry{a4paper}
+
+\begin{document}
+\maketitle
+
+\section{Zaimplementowana funkcjonalność}
+Serwer został zaimplementowany w podstawowej wersji przy użyciu wybranych narzędzi.
+Kompilacja i uruchomienie są możliwe na obu zakładanych systemach - Linux i Windows,
+jednak w pełni automatyczne budowanie jest wspierane tylko na Linuxie.
+Serwer udostępnia uniwersalny sieciowy interfejs do komunikacji z klientem.
+Obsługa wielu klientów równocześnie jest możliwa.
+
+\subsection{Warstwa sieciowa}
+Część sieciowa serwera została zaimplementowana w c++ z użyciem biblioteki boost.
+Serwer komunikuje się z klientem za pomocą zapytań w formacie Json, przesyłanych za pośrednictwem TCP.
+Po połączeniu gracz trafia do lobby, w którym może dołączyć do gry
+lub rozpocząć nową.
+Zapytania są przekształcane w fabryce abstrakcyjnej \textit{RequestFactory}
+na obiekty zapytań typów \textit{Request}. Zapytania są obsługiwane przez
+obiekty typu \textit{RequestHandler}, w szczególności takim obiektem jest
+obiekt klasy \textit{Table}, który steruje na podstawie zapytań rozgrywką.
+Aby zapewnić polimorfizm zapytania korzystają z wzorca wizytator - 
+obiekty \textit{RequestHandler} są tu wizytatorami obiektów zapytań,
+zapewniając oddzielną obsługę w zależności od typu zapytania.
+Odpowiedzi serwera przekształcane są ponownie na format Json w fabryce
+\textit{RequestFactory} i przesyłane do klienta.
+
+\subsubsection{Składnia zapytań}
+Ogólny format zapytań:\\
+\begin{code}
+\{"type":<type>, "player\_id":<id>, ...\}
+\end{code}\\
+Typ zapytania określa jakie parametry powinno zawierać zapytanie. Poszczególne zapytania zestawiono w tabeli.
+
+\begin{table}[h]
+\begin{tabular}{lllll}
+\hline
+ & typ zapytania & dodatkowe parametry & opis &  \\ \hline
+ & welcome &  & Serwer przysyła informacje o przydzielonym id &  \\
+ & join & table & Dołączenie do wybranej gry &  \\
+ & fetch & what & Pobranie informacji z serwera &  \\
+ & error & data & Wystąpił błąd &  \\
+ & create\_table &  & Utworzenie nowej gry &  \\ 
+ & cards & table, hand & Informacje od serwera o kartach na stole &  \\ 
+ & act & name, bet & Akcja klienta w grze &  \\ 
+ & table\_list & tables & Lista otwartych gier &  \\ 
+ & start &  & Start the game &  \\ 
+ & quit & full & Quit (only from table if full is false) &  \\ 
+ & joined & table & Client successfully joined table &  \\ 
+ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Warstwa logiczna gry}
+Część odpowiedzialna za logikę samej gry została zaimplementowana w Pythonie.
+Serwer w trakcie rozgrywki wywołuje skrypty z poziomu c++ sterujące stanem gry.
+
+\section{Korzystanie z aplikacji}
+Aby uruchomić serwer:\\
+\begin{code}
+\$ ./pokerd <port>
+\end{code}\\
+lub (Windows):\\
+\begin{code}
+\$ pokerd.exe <port>
+\end{code}\\
+
+\section{Niespełnione założenia}
+Serwer nie udostępnia graczom zakładanych możliwości rejestracji konta i dodatkowych
+funkcjonalności związanych ze społeczną warstwą projektu. Również klient gry nie został ukończony, co uniemożliwia pełne skorzystanie z możliwości serwera.
+Brak testów sprawia, że poprawność działania może okazać się niewystarczająca.
+
+\section{Przyczyny niedostarczenia pełnej funkcjonalności}
+Praktyka inżynierska pokazuje, jak trudno jest prawidłowo oszacować koszty projektu, zwłaszcza, gdy zespół podejmuje się rozwiązań nie stosowanych wcześniej. W przypadku tego projektu założenia okazały się zbyt ambitne. Podstawowym problemem były
+braki w składzie zespołu. Dodatkowo dydaktyczny charakter projektu sprawił,
+że stosowane techniki wymagały nieraz głębszej analizy i zrozumienia, co
+znacznie zwiększyło czas realizacji funkcjonalności.
+
+
+\end{document}
