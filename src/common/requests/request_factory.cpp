@@ -35,8 +35,8 @@ Request *RequestFactory::convert(const char *buf, int len) {
 		ret = new Msg(root["msg"].asString());
 	else if (root["type"] == "joined")
 		ret = new Joined(root["id"].asInt());
-	else if (root["type"] == "act")
-		ret = new Act(root["name"].asString());
+	else if (root["type"] == "act") 
+		ret = new Act(root["name"].asString(), root["bet"].asInt());
 	else if (root["type"] == "error")
 		ret = new Error(root["data"].asString());
 	else if (root["type"] == "table_list") {
@@ -110,6 +110,7 @@ std::string RequestFactory::convert(Act &req)
 	Json::Value root;
 	root["type"] = "act";
 	root["name"] = req.name();
+	root["bet"] = req.bet();
 	root["player_id"] = req.id();
 	Json::FastWriter writer;
 	return writer.write(root);
